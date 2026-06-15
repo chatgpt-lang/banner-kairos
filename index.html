@@ -461,6 +461,12 @@ function sendToIframe() {
 
 function applyLiveOverrides() {
   const iframe = document.getElementById('bannerIframe');
+  if (iframe.contentWindow) {
+    iframe.contentWindow.postMessage({
+      type: 'banner-overrides',
+      overrides: overrides[currentTab]
+    }, '*');
+  }
   let doc;
   try { doc = iframe.contentDocument; } catch (e) { return; }
   if (!doc) return;

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0122)file:///Users/sarahmessbah/Documents/Codex/2026-06-15/files-mentioned-by-the-user-desktop/work/Banner%202.0/mobile-en.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<link href="./mobile-en_files/css2" rel="stylesheet">
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 @font-face {
   font-family: 'Barlow Condensed';
@@ -88,37 +88,37 @@ function fitTitles() {
 }
 </script>
 <div class="banner-bg">
-  <div class="bg" style="background-image: url(&quot;&quot;);"></div>
+  <div class="bg"></div>
   <div class="bg-overlay"></div>
 </div>
 <div class="layer">
-  <div class="logo-wrap" style="transform: translate(0px, 0px) rotate(-6deg) scale(1);"><img class="logo-mega" src="file:///Users/sarahmessbah/Documents/Codex/2026-06-15/files-mentioned-by-the-user-desktop/work/Banner%202.0/mobile-en.html"></div>
-  <div class="text-zone" style="transform: translate(0px, 0px) rotate(-6deg) scale(1);">
+  <div class="logo-wrap"><img class="logo-mega" src=""></div>
+  <div class="text-zone">
     <div class="titles-block">
       <div class="title-wrap">
-        <span class="t c0" id="ref1a" style="font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c1" id="ref1b" style="font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c2" id="ref1c" style="-webkit-text-stroke: 5px; font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c3" id="ref1d" style="font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c4" id="ref1e" style="background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-size: 54px; white-space: normal; word-break: break-word;"></span>
+        <span class="t c0" id="ref1a"></span>
+        <span class="t c1" id="ref1b"></span>
+        <span class="t c2" id="ref1c"></span>
+        <span class="t c3" id="ref1d"></span>
+        <span class="t c4" id="ref1e"></span>
       </div>
       <div class="title-wrap">
-        <span class="t c0" id="ref2a" style="font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c1" id="ref2b" style="font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c2" id="ref2c" style="-webkit-text-stroke: 5px; font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c3" id="ref2d" style="font-size: 54px; white-space: normal; word-break: break-word;"></span>
-        <span class="t c4" id="ref2e" style="background-clip: text; -webkit-text-fill-color: transparent; color: transparent; font-size: 54px; white-space: normal; word-break: break-word;"></span>
+        <span class="t c0" id="ref2a"></span>
+        <span class="t c1" id="ref2b"></span>
+        <span class="t c2" id="ref2c"></span>
+        <span class="t c3" id="ref2d"></span>
+        <span class="t c4" id="ref2e"></span>
       </div>
     </div>
   </div>
-  <div class="dispo-outer" style="transform: translate(0px, 0px) rotate(-6deg) scale(1);">
+  <div class="dispo-outer">
     <span class="dispo-line"></span>
     <span class="dispo-line bot"></span>
   </div>
   <div class="center-group">
-    <div class="b-back-l" style="transform: translate(0px, 0px) rotate(-10deg) scale(1);"><img src="file:///Users/sarahmessbah/Documents/Codex/2026-06-15/files-mentioned-by-the-user-desktop/work/Banner%202.0/mobile-en.html"></div>
-    <div class="b-back-r" style="transform: translate(0px, 0px) rotate(10deg) scale(1);"><img src="file:///Users/sarahmessbah/Documents/Codex/2026-06-15/files-mentioned-by-the-user-desktop/work/Banner%202.0/mobile-en.html"></div>
-    <div class="disp" style="filter: drop-shadow(0px 0px 6px) drop-shadow(0px 0px 16px); transform: translateX(calc(-50% + 0px)) translateY(0px) rotate(1deg) scale(1);"><img src="file:///Users/sarahmessbah/Documents/Codex/2026-06-15/files-mentioned-by-the-user-desktop/work/Banner%202.0/mobile-en.html"></div>
+    <div class="b-back-l"><img src=""></div>
+    <div class="b-back-r"><img src=""></div>
+    <div class="disp"><img src=""></div>
   </div>
 </div>
 <script>
@@ -165,6 +165,22 @@ function fitTitles() {
     else apply();
   })();
 </script>
-
-
-</body></html>
+<script>
+window.addEventListener('message', function(event) {
+  if (!event.data || event.data.type !== 'banner-overrides') return;
+  const ov = event.data.overrides || {};
+  const n = (key, fallback) => Number.isFinite(Number(ov[key])) ? Number(ov[key]) : fallback;
+  const transform = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.style.transform = value;
+  };
+  transform('.logo-wrap', `translate(${n('logoX',0)}px,${n('logoY',0)}px) rotate(-6deg) scale(${n('logoSize',100)/100})`);
+  transform('.text-zone', `translate(${n('titreX',0)}px,${n('titreY',0)}px) rotate(-6deg) scale(${n('titreSize',100)/100})`);
+  transform('.disp', `translateX(calc(-50% + ${n('displayX',0)}px)) translateY(${n('displayY',0)}px) rotate(1deg) scale(${n('displaySize',100)/100})`);
+  transform('.b-back-l', `translate(${-n('pairBoosterGap',0)}px,${n('pairBoosterY',0)}px) rotate(-10deg) scale(${n('pairBoosterSize',100)/100})`);
+  transform('.b-back-r', `translate(${n('pairBoosterGap',0)}px,${n('pairBoosterY',0)}px) rotate(10deg) scale(${n('pairBoosterSize',100)/100})`);
+  transform('.dispo-outer', `translate(${n('dispoX',0)}px,${n('dispoY',0)}px) rotate(-6deg) scale(${n('dispoSize',100)/100})`);
+});
+</script>
+</body>
+</html>
