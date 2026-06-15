@@ -411,23 +411,16 @@ function loadIframe(tab) {
   iframe.src = buildIframeUrl(tab);
 }
 
+let debounceTimer = null;
 function sendToIframe() {
-  const iframe = document.getElementById('bannerIframe');
-  if (!iframe.src || iframe.src === 'about:blank') return;
-  const ov = overrides[currentTab];
-  const msg = {...getParams(), ...ov, type:'UPDATE'};
-  function tryPost(attempts) {
-    try {
-      iframe.contentWindow.postMessage(msg, '*');
-    } catch(e) {
-      if (attempts > 0) setTimeout(() => tryPost(attempts-1), 200);
-    }
-  }
-  if (iframeReady) {
-    tryPost(3);
-  } else {
-    setTimeout(() => tryPost(3), 500);
-  }
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const iframe = document.getElementById('bannerIframe');
+    if (!iframe.src || iframe.src === 'about:blank') return;
+    iframeReady = false;
+    iframe.onload = () => { iframeReady = true; };
+    iframe.src = buildIframeUrl(currentTab);
+  }, 250);
 }
 
 function onSlider(el) {
