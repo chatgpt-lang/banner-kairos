@@ -682,6 +682,12 @@ Object.keys(sliderMap).forEach(sid=>{
     document.getElementById('val-'+sid).textContent=el.value+unit;
   }
 });
+
+// Aperçu local des réglages sans lancer Make : index.html?preview=1
+if (new URLSearchParams(window.location.search).get('preview') === '1') {
+  document.getElementById('editorCard').classList.add('show');
+  loadIframe(currentTab);
+}
 </script>
 </body>
 </html>
