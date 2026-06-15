@@ -121,5 +121,61 @@ function fitTitles() {
     <div class="disp"><img src=""></div>
   </div>
 </div>
+<script>
+  // === JAUGES : lecture params URL ===
+  (function() {
+    const p = new URLSearchParams(window.location.search);
+    const gn = k => parseFloat(p.get(k) || '0');
+    const gp = k => parseFloat(p.get(k) || '100');
+    const logoSize=gp('logoSize')/100, logoX=gn('logoX'), logoY=gn('logoY');
+    const titreSize=gp('titreSize')/100, titreX=gn('titreX'), titreY=gn('titreY');
+    const displaySize=gp('displaySize')/100, displayX=gn('displayX'), displayY=gn('displayY');
+    const boosterSize=gp('boosterSize')/100, boosterX=gn('boosterX'), boosterY=gn('boosterY');
+    const card1Size=gp('card1Size')/100, card1X=gn('card1X'), card1Y=gn('card1Y');
+    const card2Size=gp('card2Size')/100, card2X=gn('card2X'), card2Y=gn('card2Y');
+    const dispoSize=gp('dispoSize')/100, dispoX=gn('dispoX'), dispoY=gn('dispoY');
+
+    function apply() {
+      const logoWrap = document.querySelector('.logo-wrap');
+      if (logoWrap) {
+        logoWrap.style.left = (parseFloat(logoWrap.style.left||0) + logoX) + 'px';
+        logoWrap.style.top = (parseFloat(logoWrap.style.top||0) + logoY) + 'px';
+        logoWrap.style.transform = (logoWrap.style.transform||'rotate(-6deg)').replace(/scale\([^)]*\)/,'') + ' scale('+logoSize+')';
+      }
+      const textZone = document.querySelector('.text-zone');
+      if (textZone) {
+        textZone.style.left = (parseFloat(textZone.style.left||0) + titreX) + 'px';
+        textZone.style.top = (parseFloat(textZone.style.top||0) + titreY) + 'px';
+        const tb = textZone.querySelector('.title-block,.titles-block');
+        if (tb) tb.style.transform = 'scale('+titreSize+')';
+      }
+      const disp = document.querySelector('.disp');
+      if (disp) {
+        disp.style.top = (parseFloat(disp.style.top||-38) + displayY) + 'px';
+        disp.style.transform = (disp.style.transform||'translateX(-50%) rotate(1deg)').replace(/scale\([^)]*\)/,'') + ' scale('+displaySize+')';
+      }
+      document.querySelectorAll('.b-back-l').forEach(el => {
+        el.style.left = (parseFloat(el.style.left||44) + boosterX) + 'px';
+        el.style.top = (parseFloat(el.style.top||10) + boosterY) + 'px';
+        el.style.transform = 'rotate(-10deg) scale('+boosterSize+')';
+      });
+      document.querySelectorAll('.b-back-r').forEach(el => {
+        el.style.right = (parseFloat(el.style.right||44) - boosterX) + 'px';
+        el.style.top = (parseFloat(el.style.top||10) + boosterY) + 'px';
+        el.style.transform = 'rotate(10deg) scale('+boosterSize+')';
+      });
+      const bl = document.querySelector('.bl');
+      if (bl) { bl.style.left=(parseFloat(bl.style.left||18)+boosterX)+'px'; bl.style.transform='rotate(-7deg) scale('+boosterSize+')'; }
+      const cr1 = document.querySelector('.cr1');
+      if (cr1) { cr1.style.right=(parseFloat(cr1.style.right||200)-card1X)+'px'; cr1.style.top=(parseFloat(cr1.style.top||-55)+card1Y)+'px'; cr1.style.transform='rotate(-10deg) scale('+card1Size+')'; }
+      const cr2 = document.querySelector('.cr2');
+      if (cr2) { cr2.style.right=(parseFloat(cr2.style.right||52)-card2X)+'px'; cr2.style.top=(parseFloat(cr2.style.top||-38)+card2Y)+'px'; cr2.style.transform='rotate(7deg) scale('+card2Size+')'; }
+      const dispo = document.querySelector('.dispo-outer');
+      if (dispo) { dispo.style.left=(parseFloat(dispo.style.left||20)+dispoX)+'px'; dispo.style.bottom=(parseFloat(dispo.style.bottom||6)-dispoY)+'px'; dispo.style.fontSize=(dispoSize*100)+'%'; }
+    }
+    if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', apply);
+    else apply();
+  })();
+</script>
 </body>
 </html>
