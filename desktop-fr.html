@@ -45,6 +45,20 @@ body{width:1562px;height:395px;overflow:hidden;background:transparent;position:r
 .cr1 img{width:100%;height:100%;object-fit:contain;transform:perspective(380px) rotateY(14deg) scaleX(0.9);}
 .cr2{position:absolute;right:52px;top:-38px;width:228px;height:448px;z-index:17;transform:rotate(7deg);}
 .cr2 img{width:100%;height:100%;object-fit:contain;transform:perspective(380px) rotateY(-14deg) scaleX(0.9);}
+.motion-enabled .bg{animation:bannerBgDrift calc(9s * var(--motion-speed-factor,1)) ease-in-out infinite alternate;transform-origin:center;}
+.motion-enabled .logo-wrap,.motion-enabled .text-zone,.motion-enabled .dispo-outer,.motion-enabled .bl,.motion-enabled .b-back-l,.motion-enabled .b-back-r,.motion-enabled .disp,.motion-enabled .cr1,.motion-enabled .cr2{animation:bannerFloat calc(var(--motion-duration,4s) * var(--motion-speed-factor,1)) ease-in-out infinite;will-change:translate;}
+.motion-enabled .logo-wrap{--motion-x:calc(2px * var(--motion-mult,.45));--motion-y:calc(-7px * var(--motion-mult,.45));--motion-duration:4.8s;}
+.motion-enabled .text-zone{--motion-x:calc(-2px * var(--motion-mult,.45));--motion-y:calc(5px * var(--motion-mult,.45));--motion-duration:5.6s;}
+.motion-enabled .dispo-outer{--motion-x:calc(3px * var(--motion-mult,.45));--motion-y:calc(-5px * var(--motion-mult,.45));--motion-duration:4.4s;}
+.motion-enabled .bl{--motion-x:calc(5px * var(--motion-mult,.45));--motion-y:calc(-10px * var(--motion-mult,.45));--motion-duration:5.1s;}
+.motion-enabled .b-back-l{--motion-x:calc(-6px * var(--motion-mult,.45));--motion-y:calc(8px * var(--motion-mult,.45));--motion-duration:5.4s;}
+.motion-enabled .b-back-r{--motion-x:calc(6px * var(--motion-mult,.45));--motion-y:calc(-8px * var(--motion-mult,.45));--motion-duration:5.9s;}
+.motion-enabled .disp{--motion-x:calc(0px * var(--motion-mult,.45));--motion-y:calc(-9px * var(--motion-mult,.45));--motion-duration:4.9s;}
+.motion-enabled .cr1{--motion-x:calc(-5px * var(--motion-mult,.45));--motion-y:calc(-8px * var(--motion-mult,.45));--motion-duration:5.2s;}
+.motion-enabled .cr2{--motion-x:calc(5px * var(--motion-mult,.45));--motion-y:calc(7px * var(--motion-mult,.45));--motion-duration:4.7s;}
+@keyframes bannerFloat{0%,100%{translate:0 0;}50%{translate:var(--motion-x,0) var(--motion-y,-6px);}}
+@keyframes bannerBgDrift{0%{transform:scale(1);filter:brightness(0.78) saturate(2.0) contrast(1.12);}100%{transform:scale(1.035);filter:brightness(0.83) saturate(2.1) contrast(1.14);}}
+@media (prefers-reduced-motion:reduce){.motion-enabled *{animation:none!important;}}
 </style>
 </head>
 <body>
@@ -52,6 +66,7 @@ body{width:1562px;height:395px;overflow:hidden;background:transparent;position:r
 const p = new URLSearchParams(window.location.search);
 const g = k => p.get(k) || '';
 document.addEventListener('DOMContentLoaded', function() {
+  configureMotion();
   document.querySelector('.bg').style.backgroundImage = "url('" + g('bg_url') + "')";
   document.querySelector('.bl img').src = g('booster_url');
   document.querySelector('.logo-mega').src = g('logo_url');
@@ -63,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
   ['dt1a','dt1b','dt1c','dt1d','dt1e'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = t1; });
   ['dt2a','dt2b','dt2c','dt2d','dt2e'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = t2; });
   const col1 = g('col1'), col2 = g('col2'), col3 = g('col3'), col4 = g('col4'), outline = g('col_outline');
-  document.querySelectorAll('.c0').forEach(el => { el.style.webkitTextStroke = '13px #000'; el.style.color = '#000'; });
+  document.querySelectorAll('.c0').forEach(el => { el.style.webkitTextStroke = '0px transparent'; el.style.color = 'transparent'; el.style.display = 'none'; });
   document.querySelectorAll('.c2').forEach(el => el.style.webkitTextStroke = '4px ' + outline);
   const grad = 'linear-gradient(180deg,' + col1 + ' 0%,' + col2 + ' 25%,' + col3 + ' 48%,' + col3 + ' 52%,' + col4 + ' 75%,' + outline + ' 100%)';
   document.querySelectorAll('.c4').forEach(el => {
@@ -84,14 +99,23 @@ function fitTitle() {
   const block = document.getElementById('titleBlock');
   const spans = block.querySelectorAll('.t');
   const ref1 = document.getElementById('dt1e'); const ref2 = document.getElementById('dt2e');
-  let size = 100, minSize = 52;
+  const maxTitleWidth = 390;
+  let size = 100, minSize = 46;
   spans.forEach(s => s.style.fontSize = size + 'px');
   while (size > minSize) {
-    if (ref1.scrollWidth <= 440 && ref2.scrollWidth <= 440) break;
+    if (ref1.scrollWidth <= maxTitleWidth && ref2.scrollWidth <= maxTitleWidth) break;
     size -= 1;
     spans.forEach(s => s.style.fontSize = size + 'px');
   }
   spans.forEach(s => s.style.fontSize = size + 'px');
+}
+function configureMotion() {
+  if (g('animation') !== '1') return;
+  const intensity = Math.max(0, Math.min(100, parseFloat(g('animIntensity') || '45'))) / 100;
+  const speed = Math.max(10, Math.min(100, parseFloat(g('animSpeed') || '60'))) / 100;
+  document.body.classList.add('motion-enabled');
+  document.documentElement.style.setProperty('--motion-mult', intensity.toFixed(2));
+  document.documentElement.style.setProperty('--motion-speed-factor', (1.55 - speed).toFixed(2));
 }
 </script>
 <div class="banner-bg">
